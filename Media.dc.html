@@ -1,0 +1,166 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Roundback · Foto's en video</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Albert+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141C24}
+a{color:#D4955F}a:hover{color:#EFE7DB}
+.md{--pad:clamp(20px,4vw,56px);--edge:max(var(--pad),calc((100vw - 1440px)/2 + var(--pad)));--ease:cubic-bezier(.22,1,.36,1);--soft:cubic-bezier(.25,.1,.25,1)}
+.md *{box-sizing:border-box}
+.md .head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:32px 64px;max-width:1328px;margin-bottom:clamp(48px,6vw,80px)}
+.md .lbl{margin:0 0 22px;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#D4955F}
+.md h2{margin:0;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100,'WONK' 0;font-weight:350;font-size:clamp(44px,5vw,76px);line-height:1;letter-spacing:-.025em;color:#EFE7DB}
+.md .intro{margin:22px 0 0;font-size:17px;line-height:1.7;color:#EFE7DB;max-width:46ch}
+.md .archive{display:inline-flex;align-items:center;gap:12px;min-height:48px;padding:0 24px;border:1px solid rgba(239,231,219,.5);border-radius:2px;color:#EFE7DB;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;transition:border-color .3s,background .3s,color .3s}
+.md .archive:hover{border-color:#D4955F;background:#D4955F;color:#141C24}
+.md .archive svg{transition:transform .4s var(--ease)}
+.md .archive:hover svg{transform:translateX(3px)}
+
+/* grid */
+.md .grid{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));grid-auto-rows:clamp(96px,10vw,148px);gap:clamp(10px,1.2vw,18px);max-width:1328px}
+.md .tile{grid-column:var(--c);grid-row:var(--r);position:relative;overflow:hidden;margin:0;padding:0;border:0;background:#2C3B4B;cursor:zoom-in;text-align:left;border-radius:2px}
+.md .tile.vid{cursor:pointer}
+.md .tile img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform 1.2s var(--ease),filter .6s}
+.md .tile:hover img,.md .tile:focus-visible img{transform:scale(1.045)}
+.md .tile:after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(20,28,36,.75),rgba(20,28,36,0) 45%);opacity:0;transition:opacity .5s var(--soft)}
+.md .tile:hover:after,.md .tile:focus-visible:after{opacity:1}
+.md .tile:focus-visible{outline:2px solid #D4955F;outline-offset:3px}
+.md .cap{position:absolute;z-index:2;left:18px;right:18px;bottom:16px;font:600 11px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#EFE7DB;opacity:0;transform:translateY(8px);transition:opacity .5s var(--soft),transform .6s var(--ease)}
+.md .tile:hover .cap,.md .tile:focus-visible .cap{opacity:1;transform:none}
+.md .play{position:absolute;z-index:2;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;display:grid;place-items:center;background:rgba(239,231,219,.92);color:#141C24;transition:transform .5s var(--ease),background .3s}
+.md .tile:hover .play{transform:scale(1.1);background:#D4955F}
+.md .play svg{margin-left:3px}
+.md .badge{position:absolute;z-index:2;top:14px;left:14px;padding:6px 10px;border-radius:2px;background:rgba(20,28,36,.7);font:600 10px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#EFE7DB}
+
+/* lightbox */
+.md .lb{position:fixed;inset:0;z-index:100;display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:rgba(13,16,19,.96);color:#EFE7DB;opacity:0;visibility:hidden;transition:opacity .45s var(--soft),visibility 0s linear .45s}
+.md .lb.open{opacity:1;visibility:visible;transition:opacity .45s var(--soft)}
+.md .lb-top{display:flex;justify-content:space-between;align-items:center;padding:18px var(--edge)}
+.md .lb-ct{font:600 12px 'Albert Sans',sans-serif;letter-spacing:.14em;color:#CFC0AA;font-variant-numeric:tabular-nums}
+.md .lb-btn{width:48px;height:48px;display:grid;place-items:center;border:0;background:none;color:#EFE7DB;cursor:pointer;border-radius:50%;transition:background .3s,color .3s}
+.md .lb-btn:hover{background:rgba(239,231,219,.1);color:#D4955F}
+.md .lb-stage{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:0 var(--edge);min-height:0}
+.md .lb-media{position:relative;height:100%;max-height:78vh;display:grid;place-items:center;min-height:0}
+.md .lb-media img{max-width:100%;max-height:78vh;width:auto;height:auto;object-fit:contain;display:block;animation:lbIn .6s var(--soft)}
+.md .lb-media .play{width:84px;height:84px;margin:-42px 0 0 -42px;pointer-events:none}
+.md .lb-note{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);padding:8px 14px;border-radius:2px;background:rgba(20,28,36,.8);font-size:13px;color:#EFE7DB;white-space:nowrap}
+@keyframes lbIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+.md .lb-cap{padding:18px var(--edge) 26px;text-align:center;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100;font-style:italic;font-weight:300;font-size:20px;color:#EFE7DB}
+
+@media (max-width:900px){
+  .md .grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:150px}
+  .md .tile{grid-column:var(--mc);grid-row:auto / span var(--mr)}
+  .md .cap{opacity:1;transform:none}
+  .md .tile:after{opacity:1}
+  .md .lb-stage{grid-template-columns:minmax(0,1fr);padding:0 16px}
+  .md .lb-stage .lb-btn{position:absolute;bottom:-60px;z-index:2}
+  .md .lb-stage .lb-btn.prev{left:16px}.md .lb-stage .lb-btn.next{right:16px}
+}
+@media (prefers-reduced-motion:reduce){.md *{animation:none!important;transition-duration:.15s!important}}
+</style>
+</helmet>
+<section class="md" id="media" aria-labelledby="media-titel" style="background: #141C24; color: #EFE7DB; font-family: 'Albert Sans', system-ui, sans-serif; padding: clamp(88px, 11vw, 152px) var(--edge)">
+
+  <div class="head">
+    <div>
+      <p class="lbl">Foto's &amp; video</p>
+      <h2 id="media-titel">Roundback live</h2>
+      <p class="intro">Een indruk van onze optredens. Klik op een foto of video om hem groot te bekijken.</p>
+    </div>
+    <a class="archive" href="#archief">Bekijk het archief <svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M2 8h11M9 4l4 4-4 4"/></svg></a>
+  </div>
+
+  <div class="grid">
+    <sc-for list="{{tiles}}" as="t" hint-placeholder-count="7">
+      <button class="{{t.cls}}" type="button" style="--c: {{t.c}}; --r: {{t.r}}; --mc: {{t.mc}}; --mr: {{t.mr}}" aria-label="{{t.aria}}" onClick="{{t.open}}">
+        <img src="{{t.src}}" alt="" style="object-position: {{t.pos}}">
+        <sc-if value="{{t.video}}" hint-placeholder-val="{{ false }}">
+          <span class="badge">Video</span>
+          <span class="play" aria-hidden="true"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg></span>
+        </sc-if>
+        <span class="cap">{{t.cap}}</span>
+      </button>
+    </sc-for>
+  </div>
+
+  <div class="{{lbClass}}" role="dialog" aria-modal="true" aria-label="Foto's en video's van Roundback" aria-hidden="{{lbHidden}}">
+    <div class="lb-top">
+      <span class="lb-ct">{{lbCounter}}</span>
+      <button class="lb-btn" type="button" aria-label="Sluiten" onClick="{{close}}"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 3 10 10M13 3 3 13"/></svg></button>
+    </div>
+    <div class="lb-stage">
+      <button class="lb-btn prev" type="button" aria-label="Vorige" onClick="{{prev}}"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+      <div class="lb-media">
+        <sc-for list="{{current}}" as="m" hint-placeholder-count="1">
+          <img src="{{m.src}}" alt="{{m.cap}}">
+          <sc-if value="{{m.video}}" hint-placeholder-val="{{ false }}">
+            <span class="play" aria-hidden="true"><svg viewBox="0 0 16 16" width="22" height="22" fill="currentColor"><path d="M4 2.5v11l9-5.5z"/></svg></span>
+            <span class="lb-note">[Hier komt de video van YouTube of Vimeo]</span>
+          </sc-if>
+        </sc-for>
+      </div>
+      <button class="lb-btn next" type="button" aria-label="Volgende" onClick="{{next}}"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+    </div>
+    <p class="lb-cap" style="margin: 0">{{lbCaption}}</p>
+  </div>
+
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1300}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { open: -1, key: 0 };
+    // c/r = desktop grid column/row, mc/mr = mobile column and row span
+    this.items = [
+      { src: './assets/f2c1cc22017f0003ba93820863223680.webp', pos: '50% 50%', cap: 'Het trio live', c: '1 / 6', r: '1 / 4', mc: '1 / 3', mr: 2 },
+      { src: './assets/3e6ec79b82ff1e31fd3a7f1f56b92977.webp', pos: '50% 30%', cap: 'Achter de drums', c: '6 / 9', r: '1 / 3', mc: '1 / 2', mr: 2 },
+      { src: './assets/80cad24b0506517d8527ff8189d492d0.webp', pos: '60% 40%', cap: 'Aan de vleugel', c: '9 / 13', r: '1 / 3', mc: '2 / 3', mr: 1, video: true },
+      { src: './assets/8c478d9ebc2a901c23869408f4cd1890.webp', pos: '50% 50%', cap: 'Op de toetsen', c: '6 / 10', r: '3 / 5', mc: '2 / 3', mr: 1 },
+      { src: './assets/b4fc8f47113aea945de57355d3b7f572.webp', pos: '40% 30%', cap: 'Op de contrabas', c: '10 / 13', r: '3 / 6', mc: '1 / 2', mr: 2 },
+      { src: './assets/8b758875f1b6aa27e0e19f6d6f2d0473.webp', pos: '50% 50%', cap: 'Op het podium', c: '1 / 6', r: '4 / 6', mc: '2 / 3', mr: 2, video: true },
+      { src: './assets/333a951ea1ea93cdb046a38ceb636bbf.webp', pos: '60% 35%', cap: 'In het moment', c: '6 / 10', r: '5 / 6', mc: '1 / 3', mr: 1 }
+    ];
+  }
+  go(i) {
+    const N = this.items.length;
+    this.setState({ open: ((i % N) + N) % N, key: this.state.key + 1 });
+  }
+  renderVals() {
+    const { open, key } = this.state, N = this.items.length;
+    const pad = (n) => String(n).padStart(2, '0');
+    const cur = open >= 0 ? this.items[open] : null;
+    return {
+      tiles: this.items.map((t, i) => ({
+        ...t,
+        video: !!t.video,
+        cls: t.video ? 'tile vid' : 'tile',
+        aria: (t.video ? 'Bekijk video: ' : 'Bekijk foto: ') + t.cap,
+        open: () => this.go(i)
+      })),
+      lbClass: open >= 0 ? 'lb open' : 'lb',
+      lbHidden: open >= 0 ? 'false' : 'true',
+      lbCounter: open >= 0 ? pad(open + 1) + ' / ' + pad(N) : '',
+      lbCaption: cur ? cur.cap : '',
+      // a fresh one-item list on every change re-mounts the image so it fades in
+      current: cur ? [{ ...cur, video: !!cur.video, k: key }] : [],
+      close: () => this.setState({ open: -1 }),
+      prev: () => this.go(open - 1),
+      next: () => this.go(open + 1)
+    };
+  }
+}
+</script>
+</body>
+</html>

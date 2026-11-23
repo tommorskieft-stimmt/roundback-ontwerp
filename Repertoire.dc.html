@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Roundback · Repertoire</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Albert+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#EFE7DB}
+a{color:#8A5B4C}a:hover{color:#3A2A25}
+.rp{--pad:clamp(20px,4vw,56px);--edge:max(var(--pad),calc((100vw - 1440px)/2 + var(--pad)))}
+.rp *{box-sizing:border-box}
+.grid{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(48px,7vw,112px);align-items:start;max-width:1328px}
+.photo{position:sticky;top:96px;margin:0}
+.photo{aspect-ratio:4/5;overflow:hidden;background:#141C24}
+.photo img{position:absolute;inset:0;display:block;width:100%;height:100%;object-fit:cover;will-change:opacity,transform}
+.lbl{margin:0 0 22px;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A5B4C}
+h2{margin:0;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100,'WONK' 0;font-weight:350;font-size:clamp(44px,5vw,76px);line-height:1;letter-spacing:-.025em;color:#141C24}
+.intro{margin:24px 0 0;font-size:17px;line-height:1.7;color:#141C24;max-width:50ch}
+table{width:100%;margin-top:56px;border-collapse:collapse}
+th{padding:0 0 14px;text-align:left;font:600 11px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#8A5B4C;border-bottom:1px solid #141C24}
+td{padding:20px 0;border-bottom:1px solid rgba(20,28,36,.16);vertical-align:baseline}
+td.t{padding-right:24px;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100,'WONK' 0;font-weight:380;font-size:clamp(20px,1.8vw,26px);line-height:1.2;color:#141C24;transition:color .3s}
+td.a{font-size:15px;color:#3A2A25}
+tr:hover td.t{color:#B5603A}
+.fa tr{animation:rowA .7s cubic-bezier(.25,.1,.25,1) both}.fb tr{animation:rowB .7s cubic-bezier(.25,.1,.25,1) both}
+@keyframes rowA{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+@keyframes rowB{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:16px 32px;margin-top:20px}
+.pager{display:flex;align-items:center;margin-left:-14px}
+.pager .ct{min-width:64px;text-align:center;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.14em;color:#141C24;font-variant-numeric:tabular-nums}
+.pager .arrow{width:44px;height:44px;display:grid;place-items:center;border:0;background:none;color:#141C24;cursor:pointer;transition:color .3s,opacity .3s}
+.pager .arrow:hover{color:#B5603A}
+.pager .arrow:disabled{opacity:.25;cursor:default;color:#141C24}
+.outro{margin:0;font-size:17px;line-height:1.7;color:#141C24}
+.outro a{color:#141C24;font-weight:600;text-decoration:none;border-bottom:1px solid #B5603A;padding-bottom:2px}
+.outro a:hover{color:#B5603A}
+@media (max-width:900px){
+  .grid{grid-template-columns:minmax(0,1fr)}
+  .photo{position:static}
+  td.t{font-size:20px}
+}
+</style>
+</helmet>
+<section class="rp" id="repertoire" ref="{{setRef}}" aria-labelledby="rep-titel" style="background: #EFE7DB; color: #141C24; font-family: 'Albert Sans', system-ui, sans-serif; padding: clamp(88px, 11vw, 152px) var(--edge)">
+  <div class="grid">
+    <figure class="photo" aria-label="De muzikanten van Roundback">
+      <img src="./assets/d81dbb5fa6145ef2ab8304ade4cd2e0d.webp" alt="Drummer van Roundback achter het drumstel" style="object-position: 45% 40%; opacity: 1; transform: scale({{s0}})">
+      <img src="./assets/657c438994ea693bda064a8d8f73b471.webp" alt="Bassist van Roundback" style="object-position: 40% 40%; opacity: {{o1}}; transform: scale({{s1}})">
+      <img src="./assets/a0a7257bd2288c5a44103ae7bbc6a93b.webp" alt="Pianist van Roundback aan de vleugel" style="object-position: 40% 50%; opacity: {{o2}}; transform: scale({{s2}})">
+    </figure>
+    <div>
+      <p class="lbl">Repertoire</p>
+      <h2 id="rep-titel">Wat we spelen</h2>
+      <p class="intro">Geen eigen werk, maar de nummers die je kent. Bekende jazzklassiekers van grote artiesten, gespeeld in ons eigen arrangement voor trio. Een greep uit ons repertoire:</p>
+      <table>
+        <thead><tr><th scope="col">Nummer</th><th scope="col">Artiest</th></tr></thead>
+        <tbody class="{{bodyClass}}">
+          <sc-for list="{{rows}}" as="r" hint-placeholder-count="12">
+            <tr><td class="t">{{r.t}}</td><td class="a">{{r.a}}</td></tr>
+          </sc-for>
+        </tbody>
+      </table>
+      <div class="foot">
+        <nav class="pager" aria-label="Pagina's van het repertoire">
+          <button class="arrow" type="button" aria-label="Vorige pagina" onClick="{{prev}}" disabled="{{atStart}}"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 5 8l5 5"/></svg></button>
+          <span class="ct">{{counter}}</span>
+          <button class="arrow" type="button" aria-label="Volgende pagina" onClick="{{next}}" disabled="{{atEnd}}"><svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 3 5 5-5 5"/></svg></button>
+        </nav>
+        <p class="outro">Een favoriet nummer in gedachten? <a href="#contact">Laat het ons weten</a></p>
+      </div>
+    </div>
+  </div>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1650}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { pos: 0, page: 0, flip: false };
+    this.songs = [
+      ['Fly Me to the Moon','Frank Sinatra'],['Take Five','The Dave Brubeck Quartet'],['Autumn Leaves','Cannonball Adderley'],['The Girl from Ipanema','Stan Getz & João Gilberto'],['Feeling Good','Nina Simone'],['Summertime','Ella Fitzgerald & Louis Armstrong'],['So What','Miles Davis'],['All of Me','Billie Holiday'],['What a Wonderful World','Louis Armstrong'],['Georgia on My Mind','Ray Charles'],['Sway','Dean Martin'],['’Round Midnight','Thelonious Monk'],
+      ['Blue Bossa','Joe Henderson'],['My Funny Valentine','Chet Baker'],['Cantaloupe Island','Herbie Hancock'],['Misty','Erroll Garner'],['Sing, Sing, Sing','Benny Goodman'],['Moanin’','Art Blakey & The Jazz Messengers'],['Cheek to Cheek','Ella Fitzgerald & Louis Armstrong'],['Mack the Knife','Bobby Darin'],['Take the ‘A’ Train','Duke Ellington'],['Waltz for Debby','Bill Evans'],['Smile','Nat King Cole'],['Body and Soul','Coleman Hawkins']
+    ].map(([t, a]) => ({ t, a }));
+    this.per = 12;
+    this.cur = 0; this.target = 0; this.raf = null; this.el = null;
+    this.setRef = (el) => { this.el = el; if (el && this.onScroll) this.onScroll(); };
+  }
+  componentDidMount() {
+    this.onScroll = () => {
+      const el = this.el;
+      if (!el) return;
+      const r = el.getBoundingClientRect(), vh = window.innerHeight || document.documentElement.clientHeight || 800;
+      // start when the section top reaches mid viewport (or right away when the section is the top of the page),
+      // end when its bottom reaches the bottom of the viewport
+      const a = Math.min(vh * 0.5, Math.max(el.offsetTop || 0, 0));
+      const span = Math.max(r.height - vh + a, 1);
+      const p = Math.min(Math.max((a - r.top) / span, 0), 1);
+      this.target = p * 2;
+      if (!this.raf) this.raf = requestAnimationFrame(this.tick);
+    };
+    this.tick = () => {
+      this.cur += (this.target - this.cur) * 0.05;
+      if (Math.abs(this.target - this.cur) < 0.0008) this.cur = this.target;
+      this.setState({ pos: this.cur });
+      this.raf = this.cur !== this.target ? requestAnimationFrame(this.tick) : null;
+    };
+    document.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
+    window.addEventListener('resize', this.onScroll);
+    this.onScroll(); setTimeout(this.onScroll, 300);
+  }
+  componentWillUnmount() {
+    document.removeEventListener('scroll', this.onScroll, { capture: true });
+    window.removeEventListener('resize', this.onScroll);
+    if (this.raf) cancelAnimationFrame(this.raf);
+  }
+  renderVals() {
+    const pos = this.state.pos;
+    // each next photo fades in over the previous one, with a hold in between
+    const fade = (i) => { const t = Math.min(Math.max((pos - (i - 1) - 0.15) / 0.7, 0), 1); return t * t * (3 - 2 * t); };
+    const o1 = fade(1), o2 = fade(2);
+    const sc = (o) => (1.03 - o * 0.03).toFixed(4);
+    const { page, flip } = this.state, N = Math.ceil(this.songs.length / this.per);
+    const goTo = (n) => { if (n < 0 || n >= N || n === page) return; this.setState({ page: n, flip: !flip }); };
+    const pad = (n) => String(n).padStart(2, '0');
+    return { rows: this.songs.slice(page * this.per, (page + 1) * this.per), bodyClass: flip ? 'fb' : 'fa',
+      pages: Array.from({ length: N }, (_, i) => ({ cls: i === page ? 'dot on' : 'dot', label: 'Pagina ' + (i + 1), current: i === page ? 'page' : 'false', go: () => goTo(i) })),
+      counter: pad(page + 1) + ' / ' + pad(N), prev: () => goTo(page - 1), next: () => goTo(page + 1), atStart: page === 0, atEnd: page === N - 1,
+      setRef: this.setRef, o1: o1.toFixed(3), o2: o2.toFixed(3), s0: (1 + Math.min(pos, 1) * 0.02).toFixed(4), s1: sc(o1), s2: sc(o2) };
+  }
+}
+</script>
+</body>
+</html>

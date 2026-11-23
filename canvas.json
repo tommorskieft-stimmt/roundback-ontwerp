@@ -1,0 +1,174 @@
+{
+  "artboards": [
+    {
+      "file": "Main.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 5785,
+      "title": "Home · volledige onepager",
+      "expand": "fill",
+      "page": "website",
+      "is_interactive": true
+    },
+    {
+      "file": "Repertoire.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1650,
+      "title": "Repertoire (los, samengevoegd in Home)",
+      "expand": "fill",
+      "page": "repertoire",
+      "is_interactive": true
+    },
+    {
+      "file": "Media.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 1440,
+      "h": 1300,
+      "title": "Foto's & video (los, samengevoegd in Home)",
+      "expand": "fill",
+      "page": "media",
+      "is_interactive": true
+    },
+    {
+      "file": "Popup-contact.dc.html",
+      "x": 1520,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Popup · Offerte aanvragen",
+      "page": "website"
+    },
+    {
+      "file": "Popup-bedankt.dc.html",
+      "x": 1520,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "Popup · Aanvraag verstuurd",
+      "page": "website"
+    },
+    {
+      "file": "Lightbox-foto.dc.html",
+      "x": 3040,
+      "y": 0,
+      "w": 1440,
+      "h": 900,
+      "title": "Lightbox · Foto",
+      "page": "website"
+    },
+    {
+      "file": "Lightbox-video.dc.html",
+      "x": 3040,
+      "y": 1020,
+      "w": 1440,
+      "h": 900,
+      "title": "Lightbox · Video",
+      "page": "website"
+    },
+    {
+      "file": "Popup-bericht.dc.html",
+      "x": 1520,
+      "y": 2040,
+      "w": 1440,
+      "h": 900,
+      "title": "Popup · Contactformulier",
+      "page": "website"
+    },
+    {
+      "file": "Archief.dc.html",
+      "x": 4560,
+      "y": 0,
+      "w": 1440,
+      "h": 5422,
+      "title": "Archief · Foto's & video",
+      "expand": "fill",
+      "page": "website",
+      "is_interactive": true
+    },
+    {
+      "file": "Mobiel-home.dc.html",
+      "x": 0,
+      "y": 0,
+      "w": 390,
+      "h": 6877,
+      "title": "Mobiel · Home",
+      "page": "mobiel",
+      "is_interactive": true
+    },
+    {
+      "file": "Mobiel-menu.dc.html",
+      "x": 470,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Mobiel · Menu",
+      "page": "mobiel",
+      "is_interactive": true
+    },
+    {
+      "file": "Mobiel-offerte.dc.html",
+      "x": 940,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Mobiel · Offerte aanvragen",
+      "page": "mobiel",
+      "is_interactive": true
+    },
+    {
+      "file": "Mobiel-contact.dc.html",
+      "x": 1410,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Mobiel · Contact",
+      "page": "mobiel",
+      "is_interactive": true
+    },
+    {
+      "file": "Mobiel-lightbox.dc.html",
+      "x": 1880,
+      "y": 0,
+      "w": 390,
+      "h": 844,
+      "title": "Mobiel · Lightbox",
+      "page": "mobiel",
+      "is_interactive": true
+    },
+    {
+      "file": "Mobiel-archief.dc.html",
+      "x": 2350,
+      "y": 0,
+      "w": 390,
+      "h": 8000,
+      "title": "Mobiel · Archief",
+      "page": "mobiel",
+      "is_interactive": true
+    }
+  ],
+  "launch": {
+    "view": "canvas"
+  },
+  "pages": [
+    {
+      "id": "website",
+      "name": "Website"
+    },
+    {
+      "id": "repertoire",
+      "name": "Repertoire"
+    },
+    {
+      "id": "media",
+      "name": "Foto's & video"
+    },
+    {
+      "id": "mobiel",
+      "name": "Mobiel"
+    }
+  ]
+}

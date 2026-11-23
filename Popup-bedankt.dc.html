@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Roundback · Contact verstuurd</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&family=Albert+Sans:wght@400..700&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+a{color:#EFE7DB}a:hover{color:#D4955F}
+.pp *{box-sizing:border-box}
+.bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(6px);transform:scale(1.04)}
+.dim{position:absolute;inset:0;background:rgba(13,16,19,.72)}
+.box{position:absolute;left:180px;top:70px;width:1080px;height:760px;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);background:#EFE7DB;color:#141C24;border-radius:2px;overflow:hidden}
+.side{background:#141C24;color:#EFE7DB;padding:56px;display:flex;flex-direction:column;gap:20px}
+.lbl{margin:0;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#D4955F}
+.side h2{margin:0;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100,'WONK' 0;font-weight:350;font-size:48px;line-height:1.02;letter-spacing:-.02em}
+.side p{margin:0;font-size:16px;line-height:1.65}
+.list{list-style:none;margin:auto 0 0;padding:24px 0 0;border-top:1px solid rgba(239,231,219,.2);display:grid;gap:12px;font-size:15px}
+.list span{display:block;font:600 10px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#CFC0AA;margin-bottom:2px}
+.list a{text-decoration:none;border-bottom:1px solid rgba(212,149,95,.6)}
+.x{position:absolute;top:12px;right:12px;width:48px;height:48px;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(239,231,219,.9);color:#141C24}
+.done{padding:56px;display:flex;flex-direction:column;justify-content:center;gap:16px}
+.done .lbl{color:#8A5B4C}
+.done h3{margin:0;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100;font-weight:350;font-size:44px;line-height:1.05}
+.done p{margin:0;font-size:17px;line-height:1.65;max-width:40ch}
+.send{align-self:flex-start;margin-top:12px;display:inline-flex;align-items:center;min-height:48px;padding:0 28px;border:0;border-radius:2px;background:#141C24;color:#EFE7DB;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase}
+
+</style>
+</helmet>
+<div class="pp" style="position: relative; width: 1440px; height: 900px; overflow: hidden; font-family: 'Albert Sans', system-ui, sans-serif; background: #141C24">
+  <img class="bg" src="./assets/f2c1cc22017f0003ba93820863223680.webp" alt="">
+  <div class="dim"></div>
+  <div class="box" role="dialog" aria-modal="true" aria-label="Aanvraag verstuurd">
+    <button class="x" type="button" aria-label="Sluiten"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 3 10 10M13 3 3 13"/></svg></button>
+    <div class="side">
+      <p class="lbl">Contact</p>
+      <h2>Vraag een offerte aan</h2>
+      <p>Vertel ons over jouw gelegenheid. We reageren met een voorstel dat past bij de dag, de ruimte en het publiek.</p>
+      <ul class="list">
+        <li><span>E-mail</span>[e-mailadres]</li>
+        <li><span>Telefoon</span>[telefoonnummer]</li>
+        <li><span>Instagram</span><a href="https://www.instagram.com/roundbackband/">@roundbackband</a></li>
+      </ul>
+    </div>
+    <div class="done">
+      <p class="lbl">Verstuurd</p>
+      <h3>Bedankt voor je aanvraag.</h3>
+      <p>We nemen zo snel mogelijk contact met je op.</p>
+      <button class="send" type="button">Sluiten</button>
+    </div>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

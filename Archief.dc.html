@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<title>Roundback · Foto's en video archief</title>
+<script src="./_runtime/react.js"></script>
+<script src="./_runtime/react-dom.js"></script>
+<script src="./_runtime/support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT,WONK@0,9..144,300..600,0..100,0..1;1,9..144,300..600,0..100,0..1&amp;family=Albert+Sans:wght@400..700&amp;display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#141C24}
+a{color:#8A5B4C}a:hover{color:#3A2A25}
+.rb{--pb:clamp(30px,4.5vh,44px);--pad:clamp(20px,4vw,56px);--edge:max(var(--pad),calc((100vw - 1440px)/2 + var(--pad)));--ease:cubic-bezier(.22,1,.36,1);--soft:cubic-bezier(.25,.1,.25,1)}
+.rb{overflow-x:clip}
+.rb *{box-sizing:border-box}
+
+/* header */
+.hdr{position:fixed;top:0;left:0;right:0;z-index:50;padding:0 var(--edge);background:rgba(20,28,36,0);transition:background .5s var(--ease)}
+.hdr.solid{background:#141C24}
+.hdr-in{display:flex;justify-content:space-between;align-items:center;padding:16px 0;border-bottom:1px solid rgba(239,231,219,.28);transition:padding .5s var(--ease),border-color .5s var(--ease)}
+.hdr.solid .hdr-in{padding:16px 0;border-bottom-color:transparent}
+.logo{font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 50,'WONK' 0;font-weight:400;font-size:23px;line-height:1;letter-spacing:.02em;text-transform:uppercase;color:#EFE7DB;text-decoration:none;transition:font-size .5s var(--ease),color .5s}
+.hdr.solid .logo{font-size:23px;color:#EFE7DB}
+.menu{display:flex;gap:clamp(24px,2.8vw,42px);align-items:center}
+.menu a{font:600 13px/1 'Albert Sans',system-ui,sans-serif;letter-spacing:.03em;text-transform:uppercase;color:#EFE7DB;text-decoration:none;display:inline-block;position:relative;transition:color .5s,font-size .5s var(--ease)}
+.menu a:hover,.menu a.act,.hdr.solid .menu a:hover,.hdr.solid .menu a.act{color:#D4955F}
+.hdr.solid .menu a,.hdr.solid .burger{color:#EFE7DB;font-size:13px}
+.menu a:after{content:'';position:absolute;left:0;right:0;bottom:-4px;height:1px;background:currentColor;transform:scaleX(0);transform-origin:right;transition:transform .5s var(--ease)}
+.menu a:hover:after,.menu a.act:after{transform:scaleX(1);transform-origin:left}
+.hdr-btn{display:inline-flex;align-items:center;min-height:38px;padding:0 20px;border-radius:2px;background:transparent;border:1px solid rgba(239,231,219,.6);color:#EFE7DB;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;text-decoration:none;transition:background .3s,color .3s,border-color .3s,min-height .5s var(--ease)}
+.hdr-btn:hover{background:#D4955F;border-color:#D4955F;color:#141C24}
+.hdr.solid .hdr-btn{border-color:rgba(239,231,219,.6);color:#EFE7DB}
+.hdr.solid .hdr-btn:hover{background:#D4955F;border-color:#D4955F;color:#141C24}
+.hdr.solid .hdr-btn{min-height:38px}
+.burger{display:none;background:none;border:0;padding:12px 0;min-height:44px;color:#EFE7DB;font:600 14px 'Albert Sans',sans-serif;letter-spacing:.03em;text-transform:uppercase;cursor:pointer}
+
+
+/* archive */
+.ah{background:#141C24;color:#EFE7DB;padding:clamp(108px,9vw,124px) var(--edge) clamp(56px,6vw,80px)}
+.ah-in{max-width:1328px}
+.crumb{margin:0 0 clamp(64px,7vw,104px);font-size:14px;color:#EFE7DB}
+.crumb a{color:#EFE7DB;text-decoration:none;border-bottom:1px solid rgba(212,149,95,.6)}
+.crumb a:hover{color:#D4955F}
+.ah .lbl{margin:0 0 22px;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#D4955F}
+.ah h1{margin:0;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100,'WONK' 0;font-weight:350;font-size:clamp(52px,7vw,112px);line-height:.98;letter-spacing:-.028em}
+.ah p.intro{margin:24px 0 0;font-size:17px;line-height:1.7;max-width:52ch;color:#EFE7DB}
+.ab{background:#EFE7DB;color:#141C24;padding:clamp(48px,6vw,80px) var(--edge) clamp(88px,11vw,140px)}
+.ab-in{max-width:1328px}
+.fbar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:16px;border-bottom:1px solid rgba(20,28,36,.18);margin-bottom:clamp(28px,3vw,40px)}
+.tabs{display:flex;gap:clamp(20px,3vw,40px)}
+.tab{position:relative;min-height:52px;padding:0;border:0;background:none;color:#3A2A25;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:color .3s}
+.tab sup{margin-left:6px;font-size:10px;letter-spacing:.04em;color:#8A5B4C}
+.tab:after{content:'';position:absolute;left:0;right:0;bottom:-1px;height:2px;background:#B5603A;transform:scaleX(0);transform-origin:left;transition:transform .5s var(--ease)}
+.tab:hover{color:#141C24}
+.tab.on{color:#141C24}.tab.on:after{transform:scaleX(1)}
+.count{padding-bottom:16px;font-size:14px;color:#3A2A25}
+.mason{column-count:3;column-gap:clamp(12px,1.4vw,20px)}
+.item{display:block;width:100%;margin:0 0 clamp(12px,1.4vw,20px);padding:0;border:0;background:#2C3B4B;position:relative;overflow:hidden;cursor:zoom-in;break-inside:avoid;border-radius:2px;animation:itemIn .7s var(--soft) both}
+.item.vid{cursor:pointer}
+@keyframes itemIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.item img{display:block;width:100%;height:auto;object-fit:cover;transition:transform 1.2s var(--ease)}
+.item:hover img,.item:focus-visible img{transform:scale(1.04)}
+.item:after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(20,28,36,.75),rgba(20,28,36,0) 45%);opacity:0;transition:opacity .5s var(--soft)}
+.item:hover:after,.item:focus-visible:after{opacity:1}
+.item:focus-visible{outline:2px solid #B5603A;outline-offset:3px}
+.item .cap{position:absolute;z-index:2;left:16px;right:16px;bottom:14px;text-align:left;font:600 11px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#EFE7DB;opacity:0;transform:translateY(8px);transition:opacity .5s var(--soft),transform .6s var(--ease)}
+.item:hover .cap,.item:focus-visible .cap{opacity:1;transform:none}
+.item .badge{position:absolute;z-index:2;top:12px;left:12px;padding:6px 10px;border-radius:2px;background:rgba(20,28,36,.7);font:600 10px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#EFE7DB}
+.play{position:absolute;z-index:2;left:50%;top:50%;width:64px;height:64px;margin:-32px 0 0 -32px;border-radius:50%;display:grid;place-items:center;background:rgba(239,231,219,.92);color:#141C24;transition:transform .5s var(--ease),background .3s}
+.item:hover .play{transform:scale(1.1);background:#D4955F}
+.play svg{margin-left:3px}
+@media (max-width:900px){.mason{column-count:2}.item .cap{opacity:1;transform:none}.item:after{opacity:1}}
+@media (max-width:560px){.mason{column-count:1}}
+
+/* lightbox */
+.md .lb{position:fixed;inset:0;z-index:100;display:grid;grid-template-rows:auto minmax(0,1fr) auto;background:rgba(13,16,19,.96);color:#EFE7DB;opacity:0;visibility:hidden;transition:opacity .45s var(--soft),visibility 0s linear .45s}
+.md .lb.open{opacity:1;visibility:visible;transition:opacity .45s var(--soft)}
+.md .lb-top{display:flex;justify-content:space-between;align-items:center;padding:18px var(--edge)}
+.md .lb-ct{font:600 12px 'Albert Sans',sans-serif;letter-spacing:.14em;color:#CFC0AA;font-variant-numeric:tabular-nums}
+.md .lb-btn{width:48px;height:48px;display:grid;place-items:center;border:0;background:none;color:#EFE7DB;cursor:pointer;border-radius:50%;transition:background .3s,color .3s}
+.md .lb-btn:hover{background:rgba(239,231,219,.1);color:#D4955F}
+.md .lb-stage{position:relative;display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:12px;padding:0 var(--edge);min-height:0}
+.md .lb-media{position:relative;height:100%;max-height:78vh;display:grid;place-items:center;min-height:0}
+.md .lb-media img{max-width:100%;max-height:78vh;width:auto;height:auto;object-fit:contain;display:block;animation:lbIn .6s var(--soft)}
+.md .lb-media .play{width:84px;height:84px;margin:-42px 0 0 -42px;pointer-events:none}
+.md .lb-note{position:absolute;left:50%;bottom:18px;transform:translateX(-50%);padding:8px 14px;border-radius:2px;background:rgba(20,28,36,.8);font-size:13px;color:#EFE7DB;white-space:nowrap}
+@keyframes lbIn{from{opacity:0;transform:scale(.985)}to{opacity:1;transform:none}}
+.md .lb-cap{padding:18px var(--edge) 26px;text-align:center;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100;font-style:italic;font-weight:300;font-size:20px;color:#EFE7DB}
+
+@media (max-width:900px){
+  .md .grid{grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:150px}
+  .md .tile{grid-column:var(--mc);grid-row:auto / span var(--mr)}
+  .md .cap{opacity:1;transform:none}
+  .md .tile:after{opacity:1}
+  .md .lb-stage{grid-template-columns:minmax(0,1fr);padding:0 16px}
+  .md .lb-stage .lb-btn{position:absolute;bottom:-60px;z-index:2}
+  .md .lb-stage .lb-btn.prev{left:16px}.md .lb-stage .lb-btn.next{right:16px}
+}
+@media (prefers-reduced-motion:reduce){.md *{animation:none!important;transition-duration:.15s!important}}
+
+/* contact popup */
+.ct-ov{position:fixed;inset:0;z-index:120;display:grid;place-items:center;padding:24px;background:rgba(13,16,19,.72);opacity:0;visibility:hidden;transition:opacity .45s var(--soft),visibility 0s linear .45s}
+.ct-ov.open{opacity:1;visibility:visible;transition:opacity .45s var(--soft)}
+.ct-box{position:relative;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);width:min(1080px,100%);max-height:calc(100vh - 48px);overflow:auto;background:#EFE7DB;color:#141C24;border-radius:2px;transform:translateY(16px);transition:transform .6s var(--ease)}
+.ct-ov.open .ct-box{transform:none}
+.ct-side{background:#141C24;color:#EFE7DB;padding:clamp(32px,4vw,56px);display:flex;flex-direction:column;gap:20px}
+.ct-side .lbl{margin:0;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#D4955F}
+.ct-side h2{margin:0;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100,'WONK' 0;font-weight:350;font-size:clamp(34px,3.4vw,48px);line-height:1.02;letter-spacing:-.02em}
+.ct-side p{margin:0;font-size:16px;line-height:1.65;color:#EFE7DB}
+.ct-list{list-style:none;margin:auto 0 0;padding:24px 0 0;border-top:1px solid rgba(207,192,170,.2);display:grid;gap:10px;font-size:15px}
+.ct-list span{display:block;font:600 10px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#CFC0AA;margin-bottom:2px}
+.ct-list a{color:#EFE7DB;text-decoration:none;border-bottom:1px solid rgba(212,149,95,.6)}
+.ct-list a:hover{color:#D4955F}
+.ct-form{padding:clamp(32px,4vw,56px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px 20px;align-content:start}
+.ct-form .full{grid-column:1 / -1}
+.fld{display:flex;flex-direction:column;gap:8px}
+.fld label{font:600 11px 'Albert Sans',sans-serif;letter-spacing:.14em;text-transform:uppercase;color:#3A2A25}
+.fld input,.fld select,.fld textarea{width:100%;min-height:48px;padding:12px 14px;border:1px solid rgba(20,28,36,.25);border-radius:2px;background:#F6F0E6;color:#141C24;font:400 16px 'Albert Sans',sans-serif;transition:border-color .3s,background .3s}
+.fld textarea{min-height:120px;resize:vertical}
+.fld input:focus,.fld select:focus,.fld textarea:focus{outline:none;border-color:#141C24;background:#fff}
+.ct-send{justify-self:start;display:inline-flex;align-items:center;min-height:48px;padding:0 28px;border:0;border-radius:2px;background:#141C24;color:#EFE7DB;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .3s,color .3s}
+.ct-send:hover{background:#D4955F;color:#141C24}
+.ct-fine{margin:0;font-size:13px;color:#3A2A25;align-self:center}
+.ct-done{padding:clamp(32px,4vw,56px);display:flex;flex-direction:column;justify-content:center;gap:16px}
+.ct-done h3{margin:0;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100;font-weight:350;font-size:36px;line-height:1.05}
+.ct-done p{margin:0;font-size:17px;line-height:1.65}
+.ct-x{position:absolute;top:12px;right:12px;z-index:2;width:48px;height:48px;display:grid;place-items:center;border:0;border-radius:50%;background:rgba(239,231,219,.9);color:#141C24;cursor:pointer;transition:background .3s}
+.ct-x:hover{background:#D4955F}
+
+
+
+/* mobile menu */
+.mnav{position:fixed;inset:0;z-index:45;display:flex;flex-direction:column;justify-content:space-between;padding:110px var(--edge) 36px;background:#141C24;color:#EFE7DB;opacity:0;visibility:hidden;transition:opacity .45s var(--soft),visibility 0s linear .45s}
+.mnav.open{opacity:1;visibility:visible;transition:opacity .45s var(--soft)}
+.mnav ul{list-style:none;margin:0;padding:0;display:grid;gap:4px}
+.mnav li a{display:block;padding:8px 0;font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 100,'WONK' 0;font-weight:350;font-size:40px;line-height:1.1;letter-spacing:-.02em;color:#EFE7DB;text-decoration:none;opacity:0;transform:translateY(10px);transition:opacity .6s var(--soft),transform .6s var(--soft),color .3s}
+.mnav.open li a{opacity:1;transform:none}
+.mnav.open li:nth-child(2) a{transition-delay:.05s}.mnav.open li:nth-child(3) a{transition-delay:.1s}.mnav.open li:nth-child(4) a{transition-delay:.15s}.mnav.open li:nth-child(5) a{transition-delay:.2s}
+.mnav li a:hover,.mnav li a.act{color:#D4955F}
+.mnav-bot{display:grid;gap:22px}
+.mnav-btn{display:flex;justify-content:center;align-items:center;min-height:52px;border-radius:2px;background:#D4955F;color:#141C24;font:600 12px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;text-decoration:none}
+.mnav-btn:hover{background:#E0A673;color:#141C24}
+.mnav-info{display:flex;flex-wrap:wrap;gap:8px 24px;font-size:14px;color:#EFE7DB}
+.mnav-info a{color:#EFE7DB;text-decoration:none;border-bottom:1px solid rgba(212,149,95,.6)}
+.hdr.menu-open{background:#141C24}
+.hdr.menu-open .hdr-in{border-bottom-color:transparent}
+.hdr-btn .s{display:none}
+@media (max-width:900px){.hdr-btn .l{display:none}.hdr-btn .s{display:inline}}
+
+/* footer */
+.ft{background:#141C24;color:#EFE7DB;padding:clamp(64px,7vw,96px) var(--edge) 28px}
+.ft-in{max-width:1328px;display:grid;grid-template-columns:minmax(0,1.4fr) repeat(2,minmax(0,1fr));gap:48px}
+.ft .logo-f{font-family:'Fraunces',Georgia,serif;font-variation-settings:'SOFT' 50,'WONK' 0;font-size:30px;letter-spacing:.02em;text-transform:uppercase;line-height:1}
+.ft p{margin:14px 0 0;font-size:15px;line-height:1.65;color:#EFE7DB;max-width:34ch}
+.ft h3{margin:0 0 16px;font:600 11px 'Albert Sans',sans-serif;letter-spacing:.16em;text-transform:uppercase;color:#D4955F}
+.ft ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;font-size:15px;color:#EFE7DB}
+.ft a{color:#EFE7DB;text-decoration:none}
+.ft a:hover{color:#D4955F}
+.ft-bot{max-width:1328px;display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;margin-top:clamp(56px,6vw,80px);padding-top:22px;border-top:1px solid rgba(239,231,219,.18);font-size:13px;color:#EFE7DB}
+@media (max-width:900px){
+  .ct-ov{padding:0}
+  .ct-box{grid-template-columns:minmax(0,1fr);max-height:100vh;height:100%}
+  .ct-form{grid-template-columns:minmax(0,1fr)}
+  .ft-in{grid-template-columns:minmax(0,1fr)}
+}
+
+
+@media (max-width:900px){
+  .menu{display:none}.burger{display:block}.logo{font-size:24px}.hdr-btn{min-height:38px;padding:0 14px;font-size:11px}
+}
+</style>
+</helmet>
+<div class="rb md" style="font-family: 'Albert Sans', system-ui, sans-serif; background: #EFE7DB; color: #141C24">
+
+  <nav class="{{mnavClass}}" aria-label="Mobiel menu" aria-hidden="{{mnavHidden}}">
+    <ul>
+      <li><a href="Main.dc.html" onClick="{{closeMenu}}">Home</a></li>
+      <li><a href="Main.dc.html#over-ons" onClick="{{closeMenu}}">Over ons</a></li>
+      <li><a href="Main.dc.html#repertoire" onClick="{{closeMenu}}">Repertoire</a></li>
+      <li><a class="act" href="Archief.dc.html" onClick="{{closeMenu}}">Foto's &amp; video</a></li>
+      <li><a href="#contact" onClick="{{openContact}}">Contact</a></li>
+    </ul>
+    <div class="mnav-bot">
+      <a class="mnav-btn" href="#offerte" onClick="{{openQuote}}">Offerte aanvragen</a>
+      <div class="mnav-info"><span>[e-mailadres]</span><span>[telefoonnummer]</span><a href="https://www.instagram.com/roundbackband/">Instagram</a></div>
+    </div>
+  </nav>
+
+  <header class="{{hdrClass}}">
+    <div class="hdr-in">
+      <a class="logo" href="Main.dc.html">Roundback</a>
+      <nav aria-label="Hoofdmenu" style="margin-left: auto; margin-right: clamp(24px, 2.8vw, 42px)">
+        <div class="menu">
+          <a href="Main.dc.html">Home</a>
+          <a href="Main.dc.html#over-ons">Over ons</a>
+          <a href="Main.dc.html#repertoire">Repertoire</a>
+          <a class="act" href="Archief.dc.html">Foto's &amp; video</a>
+          <a href="#contact" onClick="{{openContact}}">Contact</a>
+        </div>
+      </nav>
+      <div style="display: flex; align-items: center; gap: 20px">
+        <a class="hdr-btn" href="#offerte" onClick="{{openQuote}}"><span class="l">Offerte aanvragen</span><span class="s">Offerte</span></a>
+        <button class="burger" type="button" aria-expanded="{{menuExpanded}}" onClick="{{toggleMenu}}">{{burgerText}}</button>
+      </div>
+    </div>
+  </header>
+
+  <section class="ah" aria-labelledby="ah-titel">
+    <div class="ah-in">
+      <p class="crumb"><a href="Main.dc.html">Home</a> · Foto's &amp; video</p>
+      <p class="lbl">Archief</p>
+      <h1 id="ah-titel">Foto's &amp; video</h1>
+      <p class="intro">Alle foto's en video's van onze optredens op één plek. Filter op foto of video en klik om groot te bekijken.</p>
+    </div>
+  </section>
+
+  <section class="ab" aria-label="Alle foto's en video's">
+    <div class="ab-in">
+      <div class="fbar">
+        <div class="tabs" role="group" aria-label="Filter">
+          <sc-for list="{{tabs}}" as="tb" hint-placeholder-count="3">
+            <button class="{{tb.cls}}" type="button" aria-pressed="{{tb.pressed}}" onClick="{{tb.pick}}">{{tb.name}}<sup>{{tb.n}}</sup></button>
+          </sc-for>
+        </div>
+        <span class="count">{{countText}}</span>
+      </div>
+      <div class="{{masonClass}}">
+        <sc-for list="{{shown}}" as="t" hint-placeholder-count="11">
+          <button class="{{t.cls}}" type="button" aria-label="{{t.aria}}" onClick="{{t.open}}">
+            <img src="{{t.src}}" alt="" style="aspect-ratio: {{t.ar}}; object-position: {{t.pos}}">
+            <sc-if value="{{t.video}}" hint-placeholder-val="{{ false }}">
+              <span class="badge">Video</span>
+              <span class="play" aria-hidden="true"><svg viewBox="0 0 16 16" width="18" height="18" fill="currentColor"><path d="M4 2.5v11l9-5.5z"></path></svg></span>
+            </sc-if>
+            <span class="cap">{{t.cap}}</span>
+          </button>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <div class="{{lbClass}}" role="dialog" aria-modal="true" aria-label="Foto's en video's van Roundback" aria-hidden="{{lbHidden}}">
+    <div class="lb-top">
+      <span class="lb-ct">{{lbCounter}}</span>
+      <button class="lb-btn" type="button" aria-label="Sluiten" onClick="{{mClose}}"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 3 10 10M13 3 3 13"></path></svg></button>
+    </div>
+    <div class="lb-stage">
+      <button class="lb-btn prev" type="button" aria-label="Vorige" onClick="{{mPrev}}"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="M10 3 5 8l5 5"></path></svg></button>
+      <div class="lb-media">
+        <sc-for list="{{current}}" as="c" hint-placeholder-count="1">
+          <img src="{{c.src}}" alt="{{c.cap}}">
+          <sc-if value="{{c.video}}" hint-placeholder-val="{{ false }}">
+            <span class="play" aria-hidden="true"><svg viewBox="0 0 16 16" width="22" height="22" fill="currentColor"><path d="M4 2.5v11l9-5.5z"></path></svg></span>
+            <span class="lb-note">[Hier komt de video van YouTube of Vimeo]</span>
+          </sc-if>
+        </sc-for>
+      </div>
+      <button class="lb-btn next" type="button" aria-label="Volgende" onClick="{{mNext}}"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m6 3 5 5-5 5"></path></svg></button>
+    </div>
+    <p class="lb-cap" style="margin: 0">{{lbCaption}}</p>
+  </div>
+
+  <footer class="ft">
+    <div class="ft-in">
+      <div>
+        <div class="logo-f">Roundback</div>
+        <p>Live jazz trio voor grote en kleine evenementen en persoonlijke momenten.</p>
+      </div>
+      <nav aria-label="Footermenu">
+        <h3>Menu</h3>
+        <ul><li><a href="Main.dc.html">Home</a></li><li><a href="Main.dc.html#over-ons">Over ons</a></li><li><a href="Main.dc.html#repertoire">Repertoire</a></li><li><a href="Archief.dc.html">Foto's &amp; video</a></li><li><a href="#contact" onClick="{{openContact}}">Contact</a></li></ul>
+      </nav>
+      <div>
+        <h3>Contact</h3>
+        <ul><li>[e-mailadres]</li><li>[telefoonnummer]</li><li><a href="https://www.instagram.com/roundbackband/">Instagram</a></li></ul>
+      </div>
+    </div>
+    <div class="ft-bot"><span>© 2026 Roundback</span><span>[Privacyverklaring]</span></div>
+  </footer>
+
+  <div class="{{ctClass}}" id="offerte" role="dialog" aria-modal="true" aria-labelledby="ct-titel" aria-hidden="{{ctHidden}}">
+    <div class="ct-box">
+      <button class="ct-x" type="button" aria-label="Sluiten" onClick="{{closeQuote}}"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 3 10 10M13 3 3 13"></path></svg></button>
+      <div class="ct-side">
+        <p class="lbl">Contact</p>
+        <h2 id="ct-titel">Vraag een offerte aan</h2>
+        <p>Vertel ons over jouw gelegenheid. We reageren met een voorstel dat past bij de dag, de ruimte en het publiek.</p>
+        <ul class="ct-list">
+          <li><span>E-mail</span>[e-mailadres]</li>
+          <li><span>Telefoon</span>[telefoonnummer]</li>
+          <li><span>Instagram</span><a href="https://www.instagram.com/roundbackband/">@roundbackband</a></li>
+        </ul>
+      </div>
+      <sc-if value="{{sent}}" hint-placeholder-val="{{ false }}">
+        <div class="ct-done">
+          <p class="lbl" style="margin: 0; font: 600 12px 'Albert Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #8A5B4C">Verstuurd</p>
+          <h3>Bedankt voor je aanvraag.</h3>
+          <p>We nemen zo snel mogelijk contact met je op.</p>
+          <button class="ct-send" type="button" onClick="{{closeQuote}}">Sluiten</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{notSent}}" hint-placeholder-val="{{ true }}">
+        <form class="ct-form" onSubmit="{{submitQuote}}">
+          <div class="fld"><label for="f-naam">Naam</label><input id="f-naam" name="naam" type="text" autocomplete="name" required="required"></div>
+          <div class="fld"><label for="f-mail">E-mail</label><input id="f-mail" name="email" type="email" autocomplete="email" required="required"></div>
+          <div class="fld"><label for="f-tel">Telefoon</label><input id="f-tel" name="telefoon" type="tel" autocomplete="tel"></div>
+          <div class="fld"><label for="f-soort">Soort gelegenheid</label><select id="f-soort" name="soort"><option>Bedrijfsevenement</option><option>Receptie of diner</option><option>Persoonlijk moment</option><option>Anders</option></select></div>
+          <div class="fld"><label for="f-datum">Datum</label><input id="f-datum" name="datum" type="date"></div>
+          <div class="fld"><label for="f-plaats">Locatie</label><input id="f-plaats" name="locatie" type="text"></div>
+          <div class="fld full"><label for="f-bericht">Vertel ons meer</label><textarea id="f-bericht" name="bericht" placeholder="Aantal gasten, tijden, wensen voor de muziek"></textarea></div>
+          <button class="ct-send" type="submit">Verstuur aanvraag</button>
+          <p class="ct-fine">We reageren meestal binnen een paar dagen.</p>
+        </form>
+      </sc-if>
+    </div>
+  </div>
+
+  <div class="{{kClass}}" id="contact" role="dialog" aria-modal="true" aria-labelledby="k-titel" aria-hidden="{{kHidden}}">
+    <div class="ct-box">
+      <button class="ct-x" type="button" aria-label="Sluiten" onClick="{{closeContact}}"><svg viewBox="0 0 16 16" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><path d="m3 3 10 10M13 3 3 13"></path></svg></button>
+      <div class="ct-side">
+        <p class="lbl">Contact</p>
+        <h2 id="k-titel">Neem contact op</h2>
+        <p>Een vraag, een nummerverzoek of gewoon kennismaken? Stuur ons een bericht of neem direct contact op.</p>
+        <ul class="ct-list">
+          <li><span>E-mail</span>[e-mailadres]</li>
+          <li><span>Telefoon</span>[telefoonnummer]</li>
+          <li><span>Instagram</span><a href="https://www.instagram.com/roundbackband/">@roundbackband</a></li>
+        </ul>
+      </div>
+      <sc-if value="{{kSent}}" hint-placeholder-val="{{ false }}">
+        <div class="ct-done">
+          <p style="margin: 0; font: 600 12px 'Albert Sans', sans-serif; letter-spacing: .16em; text-transform: uppercase; color: #8A5B4C">Verstuurd</p>
+          <h3>Bedankt voor je bericht.</h3>
+          <p>We reageren zo snel mogelijk.</p>
+          <button class="ct-send" type="button" onClick="{{closeContact}}">Sluiten</button>
+        </div>
+      </sc-if>
+      <sc-if value="{{kNotSent}}" hint-placeholder-val="{{ true }}">
+        <form class="ct-form" onSubmit="{{submitContact}}">
+          <div class="fld"><label for="k-naam">Naam</label><input id="k-naam" name="naam" type="text" autocomplete="name" required="required"></div>
+          <div class="fld"><label for="k-mail">E-mail</label><input id="k-mail" name="email" type="email" autocomplete="email" required="required"></div>
+          <div class="fld full"><label for="k-tel">Telefoon (optioneel)</label><input id="k-tel" name="telefoon" type="tel" autocomplete="tel"></div>
+          <div class="fld full"><label for="k-bericht">Bericht</label><textarea id="k-bericht" name="bericht" required="required"></textarea></div>
+          <button class="ct-send" type="submit">Verstuur bericht</button>
+          <p class="ct-fine">Liever een offerte? <a href="#offerte" onClick="{{switchToQuote}}" style="color: #141C24; font-weight: 600">Vraag er een aan</a></p>
+        </form>
+      </sc-if>
+    </div>
+  </div>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"show":{"editor":"enum","options":["none","menu","quote","sent","contact","lightbox"],"default":"none"},"$preview":{"width":1440,"height":5422}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    const show = this.props.show || 'none';
+    this.state = { solid: false, filter: 'Alles', open: show === 'lightbox' ? 0 : -1, key: 0, flip: false, cOpen: show === 'quote' || show === 'sent', sent: show === 'sent', kOpen: show === 'contact', kSent: false, navOpen: show === 'menu' };
+    const B = (id) => './assets/' + id + '.webp';
+    this.items = [
+      { src: B('f2c1cc22017f0003ba93820863223680'), ar: '3 / 2', pos: '50% 40%', cap: 'Het trio live' },
+      { src: B('9a8418a48d203299d8c1c4b0fbb72719'), ar: '3 / 2', pos: '50% 40%', cap: 'Aan de vleugel' },
+      { src: B('ddaf7bcae73582bdae4b5ee23d748eda'), ar: '2 / 3', pos: '50% 40%', cap: 'Op de contrabas' },
+      { src: B('c199776a4a999810c9d5622f6ab6a14e'), ar: '3 / 2', pos: '50% 40%', cap: 'Achter de drums', video: true },
+      { src: B('e9abf6a91042415e0a0f4d042c3e58f4'), ar: '3 / 2', pos: '50% 40%', cap: 'Het trio' },
+      { src: B('3e6ec79b82ff1e31fd3a7f1f56b92977'), ar: '2 / 3', pos: '50% 40%', cap: 'Een glimlach achter de bekkens' },
+      { src: B('8c478d9ebc2a901c23869408f4cd1890'), ar: '3 / 2', pos: '50% 40%', cap: 'Handen op de toetsen' },
+      { src: B('657c438994ea693bda064a8d8f73b471'), ar: '2 / 3', pos: '50% 40%', cap: 'Contrabas' },
+      { src: B('80cad24b0506517d8527ff8189d492d0'), ar: '3 / 2', pos: '50% 40%', cap: 'Aan de vleugel', video: true },
+      { src: B('8b758875f1b6aa27e0e19f6d6f2d0473'), ar: '3 / 2', pos: '50% 40%', cap: 'Op het podium' },
+      { src: B('d81dbb5fa6145ef2ab8304ade4cd2e0d'), ar: '2 / 3', pos: '50% 40%', cap: 'Drums' },
+      { src: B('3be775064584ababf4b651001e99c11e'), ar: '3 / 2', pos: '50% 40%', cap: 'Pianist' },
+      { src: B('b4fc8f47113aea945de57355d3b7f572'), ar: '2 / 3', pos: '50% 40%', cap: 'In de groove' },
+      { src: B('a0a7257bd2288c5a44103ae7bbc6a93b'), ar: '2 / 3', pos: '50% 40%', cap: 'Aan de vleugel' },
+      { src: B('d550eae52d4025b5a9f9a228e002421a'), ar: '3 / 2', pos: '50% 40%', cap: 'Contrabas', video: true },
+      { src: B('333a951ea1ea93cdb046a38ceb636bbf'), ar: '3 / 2', pos: '50% 40%', cap: 'In het moment' },
+      { src: B('b056f7d0774d238ab14a519bcbb92064'), ar: '2 / 3', pos: '50% 40%', cap: 'Drummer' },
+      { src: B('b898944f718fbc5905fbf0c30fb0286c'), ar: '3 / 2', pos: '50% 40%', cap: 'Trio in actie' },
+      { src: B('eb743b52cafd5c3ea9eec2365b96d65e'), ar: '3 / 2', pos: '50% 40%', cap: 'Close up' },
+      { src: B('f55d07f7c8ddba9cf8cc11f7029ee0c1'), ar: '2 / 3', pos: '50% 40%', cap: 'Contrabas' },
+      { src: B('f12020577d5234f8195bb440dc905b9a'), ar: '3 / 2', pos: '50% 40%', cap: 'Luisteren' },
+      { src: B('1f76ce69523063263c3ac6e222089ac4'), ar: '3 / 2', pos: '50% 40%', cap: 'Over de schouder', video: true },
+      { src: B('7d5dcfd59606e66966fa99d37b5706f2'), ar: '3 / 2', pos: '50% 40%', cap: 'Pianist' },
+      { src: B('dd3620539c75acdb63b9998daec05a9b'), ar: '3 / 2', pos: '50% 40%', cap: 'Het trio' },
+      { src: B('820f10d3280c899143970897582773d1'), ar: '2 / 3', pos: '50% 40%', cap: 'Portret drummer' },
+      { src: B('4f904656109387e3c73b21f592329875'), ar: '2 / 3', pos: '50% 40%', cap: 'Portret bassist' },
+      { src: B('8e1d94535e58fe182d154064da5ff324'), ar: '2 / 3', pos: '50% 40%', cap: 'Portret pianist' }
+    ];
+  }
+  componentDidMount() {
+    this.onScroll = () => { const y = window.scrollY || document.documentElement.scrollTop || 0; const solid = y > 40; if (solid !== this.state.solid) this.setState({ solid }); };
+    document.addEventListener('scroll', this.onScroll, { passive: true, capture: true });
+    this.onScroll();
+  }
+  componentWillUnmount() { document.removeEventListener('scroll', this.onScroll, { capture: true }); }
+  list() {
+    const f = this.state.filter;
+    return f === 'Alles' ? this.items : this.items.filter((x) => (f === "Video's") === !!x.video);
+  }
+  go(i) {
+    const N = this.list().length;
+    this.setState({ open: ((i % N) + N) % N, key: this.state.key + 1 });
+  }
+  renderVals() {
+    const { filter, open, key, flip } = this.state;
+    const list = this.list(), N = list.length;
+    const pad = (n) => String(n).padStart(2, '0');
+    const cur = open >= 0 ? list[open] : null;
+    const nVid = this.items.filter((x) => x.video).length;
+    const counts = { 'Alles': this.items.length, "Foto's": this.items.length - nVid, "Video's": nVid };
+    const stop = (e) => { if (e && e.preventDefault) e.preventDefault(); };
+    return {
+      hdrClass: this.state.navOpen ? 'hdr solid menu-open' : (this.state.solid ? 'hdr solid' : 'hdr'),
+      tabs: ['Alles', "Foto's", "Video's"].map((name) => ({
+        name, n: counts[name], cls: name === filter ? 'tab on' : 'tab', pressed: name === filter ? 'true' : 'false',
+        pick: () => this.setState({ filter: name, open: -1, flip: !flip })
+      })),
+      countText: N + (N === 1 ? ' item' : ' items'),
+      masonClass: flip ? 'mason fb' : 'mason fa',
+      shown: list.map((t, i) => ({ ...t, video: !!t.video, cls: t.video ? 'item vid' : 'item', aria: (t.video ? 'Bekijk video: ' : 'Bekijk foto: ') + t.cap, open: () => this.go(i) })),
+      lbClass: open >= 0 ? 'lb open' : 'lb', lbHidden: open >= 0 ? 'false' : 'true',
+      lbCounter: open >= 0 ? pad(open + 1) + ' / ' + pad(N) : '', lbCaption: cur ? cur.cap : '',
+      current: cur ? [{ ...cur, video: !!cur.video, k: key }] : [],
+      mClose: () => this.setState({ open: -1 }), mPrev: () => this.go(open - 1), mNext: () => this.go(open + 1),
+      ctClass: this.state.cOpen ? 'ct-ov open' : 'ct-ov', ctHidden: this.state.cOpen ? 'false' : 'true',
+      sent: this.state.sent, notSent: !this.state.sent,
+      mnavClass: this.state.navOpen ? 'mnav open' : 'mnav', mnavHidden: this.state.navOpen ? 'false' : 'true',
+      menuExpanded: this.state.navOpen ? 'true' : 'false', burgerText: this.state.navOpen ? 'Sluiten' : 'Menu',
+      toggleMenu: () => this.setState({ navOpen: !this.state.navOpen }),
+      closeMenu: () => this.setState({ navOpen: false }),
+      openQuote: (e) => { stop(e); this.setState({ cOpen: true, sent: false, kOpen: false, navOpen: false }); },
+      closeQuote: () => this.setState({ cOpen: false }),
+      submitQuote: (e) => { stop(e); this.setState({ sent: true }); },
+      kClass: this.state.kOpen ? 'ct-ov open' : 'ct-ov', kHidden: this.state.kOpen ? 'false' : 'true',
+      kSent: this.state.kSent, kNotSent: !this.state.kSent,
+      openContact: (e) => { stop(e); this.setState({ kOpen: true, kSent: false, cOpen: false, navOpen: false }); },
+      closeContact: () => this.setState({ kOpen: false }),
+      submitContact: (e) => { stop(e); this.setState({ kSent: true }); },
+      switchToQuote: (e) => { stop(e); this.setState({ kOpen: false, cOpen: true, sent: false }); }
+    };
+  }
+}
+</script>
+</body>
+</html>
